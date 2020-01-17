@@ -21,14 +21,14 @@ func main() {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
 
-	configuration := configuration.Configuration{}
-	err = yaml.Unmarshal(configurationSource, &configuration)
+	config := configuration.Configuration{}
+	err = yaml.Unmarshal(configurationSource, &config)
 	if err != nil {
 		log.Fatalf("Failed to parse configuration: %v", err)
 	}
 
 	// Connect to database
-	database.InitializeDatabase(configuration)
+	database.InitializeDatabase(config)
 	defer database.CloseDatabase()
 
 	// Create our main api router
