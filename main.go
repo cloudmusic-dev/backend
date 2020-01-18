@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/cloudmusic-dev/backend/api"
+	"github.com/cloudmusic-dev/backend/authorization"
 	"github.com/cloudmusic-dev/backend/configuration"
 	"github.com/cloudmusic-dev/backend/database"
 	"github.com/goccy/go-yaml"
@@ -27,6 +28,9 @@ func main() {
 		log.Fatalf("Failed to parse configuration: %v", err)
 	}
 
+	// Pass configuration to software modules
+	authorization.Config = config
+
 	// Connect to database
 	database.InitializeDatabase(config)
 	defer database.CloseDatabase()
@@ -35,6 +39,7 @@ func main() {
 	router := mux.NewRouter()
 	api.CreatePlaylistRouter(router.PathPrefix("/api").Subrouter())
 	api.CreateFolderRouter(router.PathPrefix("/api").Subrouter())
+	api.CreateAccountRouter(router.PathPrefix("/api").Subrouter())
 
 	server := &http.Server{
 		Handler:      router,

@@ -7,6 +7,15 @@ type Database struct {
 	Database string
 }
 
+type Signing struct {
+	Method         string
+	Strength       int
+	Key            string
+	PrivateKeyPath string
+	PublicKeyPath  string
+}
+
 type Configuration struct {
 	Database Database
+	Signing Signing
 }

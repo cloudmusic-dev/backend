@@ -1,13 +1,16 @@
 package database
 
-import "time"
+import (
+	"database/sql"
+	"time"
+)
 
 type User struct {
 	BaseModel
 	Username       string
 	Email          string
 	Password       string
-	Activated      bool
+	Activated      sql.NullBool
 	ActivationCode string
 	CreatedAt      time.Time
 
