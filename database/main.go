@@ -39,6 +39,7 @@ func InitializeDatabase(configuration configuration.Configuration) {
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
+	DB.LogMode(true)
 
 	err = migrateDatabase()
 	if err != nil {

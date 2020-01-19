@@ -9,6 +9,6 @@ type Playlist struct {
 	BaseModel
 	Owner        uuid.UUID
 	Name         string
-	ParentFolder uuid.UUID
-	CreatedAt    time.Time
+	ParentFolder uuid.UUID `gorm:"column:parentFolder"`
+	CreatedAt    time.Time `gorm:"column:createdAt"`
 }
