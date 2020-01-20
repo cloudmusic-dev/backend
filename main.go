@@ -13,8 +13,6 @@ import (
 	"time"
 )
 
-
-
 func main() {
 	// Load configuration
 	configurationSource, err := ioutil.ReadFile("config.yaml")
