@@ -11,8 +11,8 @@ type User struct {
 	Email          string
 	Password       string
 	Activated      sql.NullBool
-	ActivationCode string
-	CreatedAt      time.Time
+	ActivationCode string `gorm:"column:activationCode"`
+	CreatedAt      time.Time `gorm:"column:createdAt"`
 
-	Playlists 	   []Playlist `gorm:"foreignkey:Owner"`
+	Playlists []Playlist `gorm:"foreignkey:Owner"`
 }
