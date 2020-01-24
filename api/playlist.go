@@ -23,6 +23,10 @@ type FullPlaylist struct {
 	Songs    []Song   `json:"songs"`
 }
 
+type AddSongRequest struct {
+	SongId string `json:"songId"`
+}
+
 func databasePlaylistToApi(playlist database.Playlist) Playlist {
 	ret := Playlist{
 		ID:        playlist.ID.String(),
@@ -208,7 +212,25 @@ func handleAddSongToPlaylist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// todo
+	var request AddSongRequest
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	var song database.Song
+	if database.DB.First(&song, "ID = ?", request.SongId).RecordNotFound() || song.Owner != *userId {
+		http.Error(w, "song not found", http.StatusNotFound)
+		return
+	}
+
+	n2m := database.PlaylistSong{
+		SongId: song.ID,
+		PlaylistId: playlist.ID,
+	}
+	if err := database.DB.Save(&n2m).Error; err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func CreatePlaylistRouter(router *mux.Router) {
