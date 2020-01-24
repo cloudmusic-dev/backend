@@ -147,6 +147,7 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Send token and user profile to client
+	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(RegisterSuccessResponse{
 		ApiKey: token,
 		User: PublicUser{
